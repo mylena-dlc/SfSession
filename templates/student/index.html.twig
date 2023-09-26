@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listes des stagiaires{% endblock %}
+
+{% block body %}
+
+
+    <h1>Listes des stagiaires</h1>
+
+    <a href="{{ path ('new_student')}}" class="btn btn-success">Ajouter un stagiaire</a>
+
+    {% for student in students %}
+
+    <a href="{{ path('show_student', {'id': student.id}) }}">{{ student }}</a>
+    <a class="btn btn-warning" href="{{ path('edit_student', {'id': student.id}) }}">Modifier</a><br>
+    <a class="btn btn-danger" href="{{ path('delete_student', {'id': student.id}) }}">Supprimer</a><br>
+
+        
+    {% endfor %}
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listes des catégories{% endblock %}
+
+{% block body %}
+
+
+    <h1>Listes des catégories</h1>
+
+    <a href="{{ path ('new_category')}}" class="btn btn-success">Ajouter une categorie</a>
+
+    {% for category in categories %}
+
+    <a href="{{ path('show_category', {'id': category.id}) }}">{{ category }}</a>
+    <a class="btn btn-warning" href="{{ path('edit_category', {'id': category.id}) }}">Modifier</a><br>
+    <a class="btn btn-danger" href="{{ path('delete_category', {'id': category.id}) }}">Supprimer</a><br>
+
+        
+    {% endfor %}
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listes des centres de formation{% endblock %}
+
+{% block body %}
+
+
+    <h1>Listes des centres de formation</h1>
+
+    <a href="{{ path ('new_formation')}}" class="btn btn-success">Ajouter une formation</a>
+
+    {% for formation in formations %}
+
+    <a href="{{ path('show_formation', {'id': formation.id}) }}">{{formation }}</a>
+    <a class="btn btn-warning" href="{{ path('edit_formation', {'id': formation.id}) }}">Modifier</a><br>
+    <a class="btn btn-danger" href="{{ path('delete_formation', {'id': formation.id}) }}">Supprimer</a><br>
+
+        
+    {% endfor %}
+
+
+{% endblock %}
