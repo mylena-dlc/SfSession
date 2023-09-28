@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listes des sessions{% endblock %}
+
+{% block body %}
+
+
+    <h1>Listes des sessions</h1>
+
+<div class="btn-add">
+    <a href="{{ path ('new_session')}}" class="btn btn-success">Ajouter une session</a>
+</div>
+
+    <table class="table .table-striped">
+        <thead>
+            <tr>
+                <th>Intitulé de la formation</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Nb places théoriques</th>
+                <th>Nb places réservées</th>
+                <th>Nb places restantes</th>
+                <th>Détails programme</th>
+                 <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in sessions %}
+        <tr>
+            <td><a href="{{ path('show_session', {'id': session.id}) }}">{{ session }}</td>
+            <td>{{ session.startDate | date("d.m.Y") }}</td>
+            <td>{{ session.endDate | date("d.m.Y") }}</td>
+            <td>{{ session.nbPlaces }}</td>
+            <td>{{ session.nbPlacesReserved }}</td>
+            <td>{{ session.nbPlacesRemaining }}</td>
+            <td>{{ session.nbPlaces }}</td>
+            <td><a class="btn btn-warning" href="{{ path('edit_session', {'id': session.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a class="btn btn-danger" href="{{ path('delete_session', {'id': session.id}) }}"><i class="fa-solid fa-trash"></i></a></td>
+        </tr>
+        
+    {% endfor %}
+
+
+{% endblock %}

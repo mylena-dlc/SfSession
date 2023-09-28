@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\StudentRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -156,6 +157,13 @@ class Student
         $this->sessions->removeElement($session);
 
         return $this;
+    }
+
+    // Fonction pour calculer l'âge d'un stagiaire
+    public function getAge() {
+        $now = new \DateTime();
+        $age = $this->birthDate->diff($now);
+        return $age->format('%Y');
     }
 
     public function __toString()

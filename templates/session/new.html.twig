@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une session{% endblock %}
+
+{% block body %}
+
+
+    <h1>Ajouter une session</h1>
+
+    {{ form_start(formAddSession) }}
+    
+    <div class="row">
+        <div class="col-sm">
+            {{ form_row(formAddSession.name) }} 
+        </div>
+    </div> 
+    <div class="row">
+        <div class="col-sm">
+            {{ form_row(formAddSession.startDate) }} 
+        </div>
+        <div class="col-sm">
+
+            {{ form_row(formAddSession.endDate) }} 
+        </div>
+    </div> 
+        <div class="row">
+            <div class="col-sm">
+                {{ form_row(formAddSession.nbPlaces) }} 
+            </div>
+            <div class="col-sm">
+            {{ form_row(formAddSession.formation) }} 
+            </div>
+        </div>
+    </div> 
+
+    <div class="row">
+        <div class="col-sm">
+            {{ form_row(formAddSession.valider) }}
+        </div>
+    </div> 
+    
+    {{ form_end(formAddSession) }}
+    
+{% endblock %}

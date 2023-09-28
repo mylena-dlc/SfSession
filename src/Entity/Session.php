@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\Student;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\SessionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
+// use Symfony\Component\Validator\Constraints\Collection;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
 class Session
@@ -90,6 +92,7 @@ class Session
         return $this;
     }
 
+   
     public function getNbPlaces(): ?int
     {
         return $this->nbPlaces;
@@ -101,6 +104,9 @@ class Session
 
         return $this;
     }
+
+
+
 
     /**
      * @return Collection<int, Student>
@@ -169,6 +175,27 @@ class Session
         }
 
         return $this;
+    }
+
+
+
+
+    // fonction pour calculer le nombre de place réservées pour la session
+    public function getNbPlacesReserved() {
+        $nbPlacesReserved =  count($this->students);
+        return $nbPlacesReserved;
+    }
+
+    // fonction pour calculer le nombre de places restantes pour la session
+    public function getNbPlacesRemaining() {
+        $nbPlacesReserved =  count($this->students);
+        $nbPlacesRemaining = $this->getNbPlaces() - $nbPlacesReserved;
+        return $nbPlacesRemaining;
+    }
+    
+    public function __toString()
+    {
+        return $this->getName();
     }
 
 }

@@ -7,8 +7,8 @@
 
     <h1>Ajouter un stagiaire</h1>
 
-
     {{ form_start(formAddStudent) }}
+    
     <div class="row">
         <div class="col-sm">
             {{ form_row(formAddStudent.firstname) }} 
@@ -34,8 +34,8 @@
         </div>
     </div> 
     
-    
+    {{ form_end(formAddStudent) }}
 
-    {{ form_start(formAddStudent) }}
+
     
 {% endblock %}

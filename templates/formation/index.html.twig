@@ -7,16 +7,22 @@
 
     <h1>Listes des centres de formation</h1>
 
-    <a href="{{ path ('new_formation')}}" class="btn btn-success">Ajouter une formation</a>
+<div class="btn-add">
+    <a href="{{ path ('new_formation')}}" class="btn btn-success">Ajouter une formation</a> 
+</div>
 
+<div class="lists">
     {% for formation in formations %}
 
-    <a href="{{ path('show_formation', {'id': formation.id}) }}">{{formation }}</a>
-    <a class="btn btn-warning" href="{{ path('edit_formation', {'id': formation.id}) }}">Modifier</a><br>
-    <a class="btn btn-danger" href="{{ path('delete_formation', {'id': formation.id}) }}">Supprimer</a><br>
-
-        
+    <div class="list">
+        <h3><a href="{{ path('show_formation', {'id': formation.id}) }}">{{formation }}</a></h3>
+        <div class="btn">
+            <a class="btn btn-warning" href="{{ path('edit_formation', {'id': formation.id}) }}">Modifier</a>
+            <a class="btn btn-danger" href="{{ path('delete_formation', {'id': formation.id}) }}">Supprimer</a>
+        </div>
+    </div>
+            
     {% endfor %}
-
+</div>
 
 {% endblock %}

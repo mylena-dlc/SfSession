@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listes des programmes{% endblock %}
+
+{% block body %}
+
+
+    <h1>Listes des programmes</h1>
+
+<div class="btn-add">
+    <a href="{{ path ('new_program')}}" class="btn btn-success">Ajouter un programme</a>
+</div>
+
+    <table class="table .table-striped">
+        <thead>
+            <tr>
+                <th>Intitulé de la session</th>
+                <th>Intitulé du module</th>
+                <th>Nombre de jours</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for program in programs %}
+        <tr>
+            <td>{{ program.session }}</td>
+            <td>{{ program.module }}</td>
+            <td>{{ program.nbDays }}</td>
+            <td><a class="btn btn-warning" href="{{ path('edit_program', {'id': program.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a class="btn btn-danger" href="{{ path('delete_program', {'id': program.id}) }}"><i class="fa-solid fa-trash"></i></a></td>
+        </tr>
+        
+    {% endfor %}
+
+
+{% endblock %}

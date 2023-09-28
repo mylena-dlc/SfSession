@@ -4,12 +4,19 @@
 
 {% block body %}
 
-    <h1>Détail d'un stagiaire</h1>
+    <h1>Fiche stagiaire</h1>
 
-    <h2>{{ student }}</h2>
+    <h2>{{ student.firstname }} {{ student.lastname }}</h2>
+    <p> 
+        Sexe : {{ student.sexe }} <br>
+        Date de naissance : {{ student.birthDate | date("d.m.Y") }} ({{ student.age }} ans) <br>
+        Ville : {{ student.city }} <br>
+        Email : {{ student.email }} <br>
+        Téléphone : {{ student.phone }} <br>
+    </p>
 
 
-    <h3>Détails des sessions</h3>
+   
 
 
 {% endblock %} 

@@ -7,26 +7,7 @@
 
     <h2>{{ formation }}</h2>
 
+ 
 
-    <h3>Détails des sessions</h3>
-{# 
-    {% if entreprise.employes | length > 0 %}
-    <table class="table .table-striped">
-        <thead>
-            <tr>
-                <th>Employe</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for employe in entreprise.employes %}
-               <tr>
-                    <td><a href="{{ path('show_employe', {'id':employe.id}) }}">{{ employe }} </a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-        {% else %}
-        <p>Aucun salarié dans cette entreprise</p>
-    {% endif %}
 
-{% endblock %} #}
+{% endblock %}
