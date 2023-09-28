@@ -69,4 +69,9 @@ class Program
     }
 
 
+
+    public function __toString()
+    {
+        return $this->getModule();
+    }
 }

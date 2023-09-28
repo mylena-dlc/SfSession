@@ -6,21 +6,41 @@
 
     <h1>Détail de la session {{ session }}</h1>
 
-     <table class="table .table-striped">
+ <table class="table .table-striped">
         <thead>
             <tr>
-                <th>Module</th>
+               
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Nb places théoriques</th>
+                <th>Nb places réservées</th>
+                <th>Nb places restantes</th>
+                <th>Détails programme</th>
             </tr>
         </thead>
         <tbody>
-         
-        <p>
-            Formation : {{session.formation}} <br>
-            Date de début : {{session.startDate | date("d.m.Y")}} <br>
-            Date de fin : {{session.endDate | date("d.m.Y")}} <br>
-            Nombre de places : {{session.nbPlaces}} <br>
-        </p>
+            <tr>
+               
+                <td>{{ session.startDate | date("d.m.Y") }}</td>
+                <td>{{ session.endDate | date("d.m.Y") }}</td>
+                <td>{{ session.nbPlaces }}</td>
+                <td>{{ session.nbPlacesReserved }}</td>
+                <td>{{ session.nbPlacesRemaining }}</td>
+                
+                {% for program in programs %}
+                <td><a href="{{ path('show_program', {'id': program.id}) }}">voir programme</td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+<br>
+    <h2> Stagiaires inscrits</h2>
 
+    {% for student in session.students %}
+        <p>
+            <a href="{{ path('show_student', {'id': student.id}) }}">{{ student.firstname }} {{ student.lastname }}</a>
+        </p>    
+    {% endfor %}
 
 
 {% endblock %} 

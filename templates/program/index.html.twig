@@ -16,7 +16,7 @@
             <tr>
                 <th>Intitulé de la session</th>
                 <th>Intitulé du module</th>
-                <th>Nombre de jours</th>
+                <th>Nombre de jour(s)</th>
                 <th></th>
             </tr>
         </thead>
@@ -25,12 +25,14 @@
         <tr>
             <td>{{ program.session }}</td>
             <td>{{ program.module }}</td>
-            <td>{{ program.nbDays }}</td>
+            <td>{{ program.nbDays }} jours</td>
             <td><a class="btn btn-warning" href="{{ path('edit_program', {'id': program.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
             <a class="btn btn-danger" href="{{ path('delete_program', {'id': program.id}) }}"><i class="fa-solid fa-trash"></i></a></td>
         </tr>
         
-    {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
 
 
 {% endblock %}

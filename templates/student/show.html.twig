@@ -16,7 +16,15 @@
     </p>
 
 
-   
+    <h2>Sessions prévues</h2>
+
+<ul>
+{% for session in student.sessions %}
+
+    <li> <strong> {{ session.name }} </strong> (du {{ session.startDate | date('d.m.Y')}} au {{ session.endDate | date('d.m.Y') }})</li>
+{% endfor %}
+
+   </ul>
 
 
 {% endblock %} 

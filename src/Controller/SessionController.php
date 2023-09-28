@@ -16,9 +16,20 @@ class SessionController extends AbstractController
     #[Route('/session', name: 'app_session')]
     public function index(SessionRepository $sessionRepository): Response
     {
-        $sessions = $sessionRepository->findBy([], ['name' => 'ASC']);
+        $sessions = $sessionRepository->findBy([], ['startDate' => 'ASC']);
+        
+            // Créez un tableau pour stocker les programmes associés à chaque session
+    $programs = [];
+
+    // Bouclez sur les sessions pour obtenir les programmes associés
+    foreach ($sessions as $session) {
+        $programs[$session->getId()] = $session->getPrograms();
+    }
+
         return $this->render('session/index.html.twig', [
             'sessions' => $sessions,
+            'programs' => $programs,
+    
         ]);
     }
 
@@ -61,11 +72,15 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('app_session');
     }
 
+
     #[Route('/session/{id}', name: 'show_session')]
     public function show(Session $session): Response {
 
+        $programs = $session->getPrograms();
+
         return $this->render('session/show.html.twig', [
             'session' => $session,
+            'programs' => $programs,
         ]);
 
     }

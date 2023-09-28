@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail d'un programme{% endblock %}
+
+{% block body %}
+
+    <h1>Détail du programme {{ program }}</h1>
+
+ <table class="table .table-striped">
+        <thead>
+            <tr>
+                <th>Intitulé de la session</th>
+                <th>Intitulé du module</th>
+                <th>Nombre de jour(s)</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+         
+        <tr>
+            <td>{{ program.session }}</td>
+            <td>{{ program.module }}</td>
+            <td>{{ program.nbDays }} jours</td>
+        </tr>
+        
+    
+        </tbody>
+    </table>
+
+
+{% endblock %} 
