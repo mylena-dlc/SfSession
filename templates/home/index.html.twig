@@ -5,6 +5,12 @@
 {% block body %}
 
 {# pour récupérer les infos de l'user connecter 'app.user' #}
-<h1>Bienvenue {{ app.user.pseudo }} </h1> 
+{% if app.user %}
+    <h1>Bienvenue {{ app.user.pseudo }} </h1> 
+    {% else %}
+    <h1>Bienvenue sur la page d'accueil</h1> 
+    <p>Veuillez vous connecter pour voir les sessions</p>
+{% endif %}
+
 
 {% endblock %}

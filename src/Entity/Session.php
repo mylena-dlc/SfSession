@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\Program;
 use App\Entity\Student;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\SessionRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 // use Symfony\Component\Validator\Constraints\Collection;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
@@ -38,16 +39,22 @@ class Session
     #[ORM\JoinColumn(nullable: false)]
     private ?Formation $formation = null;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Program::class)]
-    private Collection $programs;
+    // #[ORM\OneToMany(targetEntity: Program::class, mappedBy: 'session', cascade={"persist"}, orphanRemoval=true)]
+    // #[ORM\OrderBy(['module' => 'ASC'])]
 
+    // private Collection $programs;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Program", mappedBy="session", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OrderBy({"module" = "ASC"})
+     */
+    private Collection $programs;
 
 
     public function __construct()
     {
         $this->students = new ArrayCollection();
         $this->programs = new ArrayCollection();
-        
     }
 
     public function getId(): ?int

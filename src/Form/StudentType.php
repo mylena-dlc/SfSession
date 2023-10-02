@@ -18,12 +18,14 @@ class StudentType extends AbstractType
     {
         $builder
         ->add('lastname', TextType::class, [
+            'label' => 'Nom',
             'attr' => [
                 'class' => 'form-control'
             ],
             "required" => true
         ])
         ->add('firstname', TextType::class, [
+            'label' => 'Prénom',
             'attr' => [
                 'class' => 'form-control'
             ],
@@ -36,12 +38,14 @@ class StudentType extends AbstractType
             "required" => true
         ])
         ->add('birthDate', DateType::class, [
+            'label' => 'Date de naissance',
             'widget' => 'single_text',
             'attr' => [
                 'class' => 'form-control'
             ]
         ])
         ->add('city', TextType::class, [
+            'label' => 'Ville',
             'attr' => [
                 'class' => 'form-control'
             ]
@@ -52,11 +56,16 @@ class StudentType extends AbstractType
             ]
         ])
         ->add('phone', TextType::class, [
+            'label' => 'Numéro de téléphone',
             'attr' => [
                 'class' => 'form-control'
             ]
         ])
-        ->add('valider', SubmitType::class);
+        ->add('valider', SubmitType::class, [
+            'attr' => [
+                'class' => 'btn btn-lg btn-primary'
+            ]
+        ]);
 
     }
 

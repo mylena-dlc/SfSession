@@ -13,7 +13,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StudentController extends AbstractController
 {
-
+    #[Route('/student', name: 'app_student')]
+    public function index(StudentRepository $studentRepository): Response
+    {
+        $students = $studentRepository->findBy([], ['lastname' => 'ASC']);
+        return $this->render('student/index.html.twig', [
+            'students' => $students,
+        ]);
+    }
 
     #[Route('/student/new', name: 'new_student')]
     #[Route('/student/{id}/edit', name: 'edit_student')]
@@ -45,14 +52,7 @@ class StudentController extends AbstractController
 
     }   
 
-    #[Route('/student', name: 'app_student')]
-    public function index(StudentRepository $studentRepository): Response
-    {
-        $students = $studentRepository->findBy([], ['firstname' => 'ASC']);
-        return $this->render('student/index.html.twig', [
-            'students' => $students,
-        ]);
-    }
+
 
     #[Route('/student/{id}/delete', name: 'delete_student')]
     public function delete(Student $student, EntityManagerInterface $entityManager) {

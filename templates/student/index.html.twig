@@ -14,7 +14,7 @@
 <div class="lists">
     {% for student in students %}
 <div class="list">
-    <h3><a href="{{ path('show_student', {'id': student.id}) }}">{{ student }}</a></h3>
+    <h3><a href="{{ path('show_student', {'id': student.id}) }}">{{ student.firstname }} {{ student.lastname }}</a></h3>
     <div class="btn">
         <a class="btn btn-warning" href="{{ path('edit_student', {'id': student.id}) }}">Modifier</a>
         <a class="btn btn-danger" href="{{ path('delete_student', {'id': student.id}) }}">Supprimer</a>

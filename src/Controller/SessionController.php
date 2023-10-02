@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Session;
 use App\Form\SessionType;
+use App\Repository\ProgramRepository;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,17 +19,17 @@ class SessionController extends AbstractController
     {
         $sessions = $sessionRepository->findBy([], ['startDate' => 'ASC']);
         
-            // Créez un tableau pour stocker les programmes associés à chaque session
-    $programs = [];
+    // Créez un tableau pour stocker les programmes associés à chaque session
+    // $programs = [];
 
     // Bouclez sur les sessions pour obtenir les programmes associés
-    foreach ($sessions as $session) {
-        $programs[$session->getId()] = $session->getPrograms();
-    }
+    // foreach ($sessions as $session) {
+    //     $programs[$session->getId()] = $session->getPrograms();
+    // }
 
         return $this->render('session/index.html.twig', [
             'sessions' => $sessions,
-            'programs' => $programs,
+            // 'programs' => $programs,
     
         ]);
     }
@@ -54,9 +55,11 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('app_session');
         }
 
+        // vue pour afficher le formulaire d'ajout
         return $this->render('session/new.html.twig', [
-            'formAddSession' => $form,
-            'edit' => $session->getId()
+            'form' => $form,
+            'edit' => $session->getId(),
+            'sessionId' => $session->getId()
         ]);
 
     }   
@@ -74,14 +77,46 @@ class SessionController extends AbstractController
 
 
     #[Route('/session/{id}', name: 'show_session')]
-    public function show(Session $session): Response {
+    public function show(Session $session, ProgramRepository $programRepository, $id): Response {
 
-        $programs = $session->getPrograms();
+        $programs = $programRepository->findBy(['session' => $id ]);
 
+// dd($programs);
         return $this->render('session/show.html.twig', [
             'session' => $session,
-            'programs' => $programs,
+            'programs' => $programs
         ]);
 
     }
+
+    
+    // #[Route('/session/{id}/', name: 'add_student')]
+
+    // public function addStudent(Session $session = null, Request $request, EntityManagerInterface $entityManager): Response {
+        
+
+
+    //     $session->addStudent($student);
+      
+    //     $form = $this->createForm(SessionType::class, $session);
+
+    //     $form->handleRequest($request);
+
+
+    //     if($form->isSubmitted() && $form->isValid()) {
+
+    //         $session = $form->getData();
+    //         $entityManager->persist($session);
+    //         $entityManager->flush();
+    //         return $this->redirectToRoute('app_session');
+    //     }
+
+    //     return $this->render('session/new.html.twig', [
+    //         'formAddSession' => $form,
+    //         'edit' => $session->getId()
+    //     ]);
+
+    // }   
+
+
 }

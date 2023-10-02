@@ -17,18 +17,24 @@ class ModuleType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'label' => 'Nom',
                 'attr' => [
                     'class' => 'form-control'
                 ],
                 "required" => true
             ])
             ->add('category', EntityType::class, [
+                'label' => 'Catégorie',
                 'class' => Category::class,
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
-            ->add('valider', SubmitType::class);
+            ->add('valider', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-lg btn-primary'
+                ]
+            ]);
         
     }
 

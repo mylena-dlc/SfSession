@@ -8,6 +8,7 @@ use App\Entity\Session;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -17,28 +18,24 @@ class ProgramType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nbDays', IntegerType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                "required" => true
-            ])
-            ->add('session', EntityType::class, [
-                'class' => Session::class,
-                'attr' => [
-                    'class' => 'btn btn-success'
-                ]
-            ])
+
+            ->add('session', HiddenType::class) // on cache la session car elle sera automatiquement récupéré dans la session
             ->add('module', EntityType::class, [
                 'class' => Module::class,
+                'label' => 'Module',
+                'choice_label' => 'name',
                 'attr' => [
                     'class' => 'btn btn-success'
                 ]
-            ])
-            ->add('valider', SubmitType::class, [
+            ])            
+            ->add('nbDays', IntegerType::class, [
+                'label' => 'Nombre de jours',
                 'attr' => [
-                    'class' => 'btn btn-success'
-                ]
+                    'class' => 'form-control',
+                    'min' => 1,
+                    'max' => 100
+                ],
+                "required" => true
             ])
         ;
     }

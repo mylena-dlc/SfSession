@@ -49,7 +49,7 @@ class FormationController extends AbstractController
 
         return $this->render('formation/new.html.twig', [
             'formAddFormation' => $form,
-            'edit' => $formation->getId()
+            'edit' => $formation->getId(),
         ]);
 
     }   
