@@ -23,6 +23,8 @@ class FormationController extends AbstractController
         ]);
     }
     
+
+    // Fonction pour ajouter ou éditer une formation
     #[Route('/formation/new', name: 'new_formation')]
     #[Route('/formation/{id}/edit', name: 'edit_formation')]
 
@@ -55,7 +57,7 @@ class FormationController extends AbstractController
     }   
 
 
-
+    // Fonction pour supprimer une formation
     #[Route('/formation/{id}/delete', name: 'delete_formation')]
     public function delete(Formation $formation, EntityManagerInterface $entityManager) {
 
@@ -68,6 +70,7 @@ class FormationController extends AbstractController
     }
 
 
+    // Fonction pour afficher les détails d'une formation
     #[Route('/formation/{id}', name: 'show_formation')]
     public function show(Formation $formation): Response {
 

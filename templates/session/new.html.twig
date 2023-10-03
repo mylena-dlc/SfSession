@@ -10,6 +10,10 @@
     {{ form_start(form) }}
     
     <div class="row">
+        {{ form_row(form.formation) }} 
+        </div> 
+
+    <div class="row">
         <div class="col-sm">
             {{ form_row(form.name) }} 
         </div>
@@ -25,7 +29,9 @@
     </div> 
 
     <div class="row">  
-        {{ form_row(form.nbPlaces) }} 
+            <div class="col-sm">
+            {{ form_row(form.nbPlaces) }} 
+        </div>
     </div>
 
     {# on va construire dynamiquement la liste des modules existants à partir de Program #}
@@ -49,7 +55,7 @@
     
         <div class="form-group row flex-action">
             <button type="button" 
-                class="add-another-collection-widget button"
+                class="add-another-collection-widget button submit-module"
                 data-list-selector="#programme-fields-list">Ajouter un nouveau module</button>
         </div>
 
@@ -60,9 +66,8 @@
 
 
     <div class="row">
-        <div class="col-sm">
-            {{ form_row(form.valider) }}
-        </div>
+         {{ form_row(form.valider) }}
+        
     </div> 
     
     {{ form_end(form) }}

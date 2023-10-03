@@ -23,6 +23,7 @@ class ProgramController extends AbstractController
     }
 
 
+    // Fonction pour ajouter ou éditer un programme
     #[Route('/program/new', name: 'new_program')]
     #[Route('/program/{id}/edit', name: 'edit_program')]
 
@@ -51,6 +52,8 @@ class ProgramController extends AbstractController
 
     }   
 
+
+    // Fonction pour supprimer un programme
     #[Route('/program/{id}/delete', name: 'delete_program')]
     public function delete(Program $program, EntityManagerInterface $entityManager) {
 
@@ -62,6 +65,8 @@ class ProgramController extends AbstractController
         return $this->redirectToRoute('app_program');
     }
 
+
+    // Fonction pour afficher les détails d'un programme
     #[Route('/program/{id}', name: 'show_program')]
     public function show(Program $program): Response {
 

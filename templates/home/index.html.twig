@@ -12,5 +12,47 @@
     <p>Veuillez vous connecter pour voir les sessions</p>
 {% endif %}
 
+{% if app.user %}
+
+
+<h1>Sessions en cours</h1>
+
+    <table class="table .table-striped">
+        <thead>
+            <tr>
+                <th>Centre de formation</th>
+                <th>Intitulé de la formation</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th class="nb-places">Nb places théoriques</th>
+                <th class="nb-places">Nb places réservées</th>
+                <th class="nb-places">Nb places restantes</th>
+                <th class="nb-places">Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in sessions %}
+            <tr>
+                <td>{{ session.formation.name }}</td>
+                <td><a href="{{ path('show_session', {'id': session.id}) }}">{{ session }}</a></td>
+                <td>{{ session.startDate | date("d.m.Y") }}</td>
+                <td>{{ session.endDate | date("d.m.Y") }}</td>
+                <td>{{ session.nbPlaces }}</td>
+                <td>{{ session.nbPlacesReserved }}</td>
+                <td>{{ session.nbPlacesRemaining }}</td>
+                <td> {% if session.nbPlacesRemaining == 0 %}
+                    <a href="{{ path('show_session', {'id': session.id}) }}"><button class="btn btn-lg bg-danger">COMPLET</button></a>
+                {% else %}
+                    <a href="{{ path('show_session', {'id': session.id}) }}"><button class="btn btn-lg bg-success">INSCRIPTION DISPONIBLE</button></a>
+                {% endif %}
+                </td>
+                
+            </tr>
+        
+    {% endfor %}
+        </tbody>
+    </table>
+    
+{% endif %}
 
 {% endblock %}

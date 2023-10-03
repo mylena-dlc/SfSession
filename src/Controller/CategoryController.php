@@ -23,7 +23,7 @@ class CategoryController extends AbstractController
     }
 
 
-
+    // Fonction pour ajouter ou éditer une catégorie
     #[Route('/category/new', name: 'new_category')]
     #[Route('/category/{id}/edit', name: 'edit_category')]
 
@@ -57,6 +57,7 @@ class CategoryController extends AbstractController
     }   
 
 
+    // Fonction pour supprimer une catégorie
     #[Route('/category/{id}/delete', name: 'delete_category')]
     public function delete(Category $category, EntityManagerInterface $entityManager) {
 
@@ -69,6 +70,7 @@ class CategoryController extends AbstractController
     }
 
     
+    // Fonction pour afficher les détails d'une catégorie
     #[Route('/category/{id}', name: 'show_category')]
     public function show(Category $category): Response {
 

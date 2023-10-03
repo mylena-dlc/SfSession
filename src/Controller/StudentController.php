@@ -22,6 +22,7 @@ class StudentController extends AbstractController
         ]);
     }
 
+    // Fonction pour ajouter ou editer un stagiaire
     #[Route('/student/new', name: 'new_student')]
     #[Route('/student/{id}/edit', name: 'edit_student')]
 
@@ -34,11 +35,9 @@ class StudentController extends AbstractController
 
         $form->handleRequest($request);
 
-        // dd($form);
 
         if($form->isSubmitted() && $form->isValid()) {
 
-            // dd('helloo');
             $student = $form->getData();
             $entityManager->persist($student);
             $entityManager->flush();
@@ -53,7 +52,7 @@ class StudentController extends AbstractController
     }   
 
 
-
+    // Fonction pour supprimer un stagiaire
     #[Route('/student/{id}/delete', name: 'delete_student')]
     public function delete(Student $student, EntityManagerInterface $entityManager) {
 
@@ -66,6 +65,7 @@ class StudentController extends AbstractController
     }
 
 
+    // Fonciton pour afficher les détails d'un stagiaire
     #[Route('/student/{id}', name: 'show_student')]
     public function show(Student $student): Response {
 

@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <h1>Détail de la session {{ session }}</h1>
+    <h1>Session {{ session }}</h1>
 
  <table class="table .table-striped">
         <thead>
@@ -30,13 +30,13 @@
     </table>
 <br>
 
-<h2>Les modules de la session</h2>
+<h2 class="titre-module">Programme de la session</h2>
 
-<table class="table .table-striped">
+<table class="table .table-striped table-module">
     <thead>
         <tr>
-            <th>Module</th>
-            <th>Nombre de jours</th>
+            <th class="th-module">Module</th>
+            <th class="th-module">Nombre de jours</th>
         </tr>
     </thead>
     <tbody>
@@ -65,7 +65,7 @@
 
 
 
-    {# <h2> Stagiaires inscrits</h2>
+    <h2> Stagiaires inscrits</h2>
 
     {% if session.students is empty %}
         <p>Aucun stagiaire inscrit</p>
@@ -77,10 +77,22 @@
         {% endfor %}
     {% endif %}
 
- <h2> Inscriptions </h2>
- {% for student in students %}
-        <option value="{{ student.id }}">{{ student.firstname }} {{ student.lastname }}</option>
+<h2>Stagiaires non inscrits</h2>
 
- {% endfor %} #}
+{# {% if studentsNotRegistered is empty %}
+    <p>Tous les stagiaires sont inscrits à cette session.</p>
+{% else %} #}
+    <ul>
+        {% for student in notRegisteredStudents %}
+            <li>
+                {{ student.firstname }} </a>
+            </li>
+        {% endfor %}
+    </ul>
+{# {% endif %} #}
+
+
+
+
 
 {% endblock %} 

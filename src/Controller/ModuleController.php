@@ -22,6 +22,7 @@ class ModuleController extends AbstractController
         ]);
     }
 
+    // Fonction pour ajouter ou éditer un module
     #[Route('/module/new', name: 'new_module')]
     #[Route('/module/{id}/edit', name: 'edit_module')]
 
@@ -50,6 +51,7 @@ class ModuleController extends AbstractController
 
     }   
 
+    // Fonction pour supprimer un module
     #[Route('/module/{id}/delete', name: 'delete_module')]
     public function delete(Module $module, EntityManagerInterface $entityManager) {
 

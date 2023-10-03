@@ -14,6 +14,7 @@
     <table class="table .table-striped">
         <thead>
             <tr>
+                <th>Statut</th>
                 <th>Intitulé de la formation</th>
                 <th>Date de début</th>
                 <th>Date de fin</th>
@@ -26,13 +27,19 @@
         <tbody>
             {% for session in sessions %}
             <tr>
+                <td> {% if session.nbPlacesRemaining == 0 %}
+                    <a href="{{ path('show_session', {'id': session.id}) }}"><button class="btn btn-lg bg-danger">COMPLET</button></a>
+                {% else %}
+                    <a href="{{ path('show_session', {'id': session.id}) }}"><button class="btn btn-lg bg-success">INSCRIPTION DISPONIBLE</button></a>
+                {% endif %}
+                </td>
                 <td><a href="{{ path('show_session', {'id': session.id}) }}">{{ session }}</a></td>
                 <td>{{ session.startDate | date("d.m.Y") }}</td>
                 <td>{{ session.endDate | date("d.m.Y") }}</td>
                 <td>{{ session.nbPlaces }}</td>
                 <td>{{ session.nbPlacesReserved }}</td>
                 <td>{{ session.nbPlacesRemaining }}</td>
-                <td><a class="btn btn-warning" href="{{ path('edit_session', {'id': session.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                <td class="action"><a class="btn btn-warning btn-action" href="{{ path('edit_session', {'id': session.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
                 <a class="btn btn-danger" href="{{ path('delete_session', {'id': session.id}) }}"><i class="fa-solid fa-trash"></i></a></td>
             </tr>
         

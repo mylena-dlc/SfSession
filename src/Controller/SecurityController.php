@@ -25,6 +25,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
+    // Fonction de déconnection
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
@@ -32,10 +33,10 @@ class SecurityController extends AbstractController
     }
 
 
+    // Fonction pour afficher les détails d'un profile
     #[Route(path: '/profile/{id}', name: 'app_profile')]
     public function profile(User $user): Response
     {
-     
         return $this->render('security/profile.html.twig', [
             'user' => $user,
         ]);    }

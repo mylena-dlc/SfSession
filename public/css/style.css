@@ -8,6 +8,12 @@
     --backgroundColor1: rgb(107, 107, 107);
     --backgroundColor2: rgb(47, 47, 47);
     --backgroundColor3: #f8f9fa;
+    --backgroundColor4: linear-gradient(rgb(247,144,16),rgb(255,210,0));
+    
+
+    --color1: rgb(107, 107, 107);
+    --color2: #434343;
+    --color3: rgb(247,144,16);
 
 }
 .mb-lg-0 {
@@ -21,6 +27,15 @@
 
 h1 {
     margin: 30px 0 30px 0;
+}
+
+h2 {
+    margin: 30px 0 30px 0;
+}
+
+.titre-module {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
 .mb-3 {
@@ -61,6 +76,15 @@ label, input {
     margin-bottom: 10px;
 }
 
+/* ********************************************** NAVBAR ********************************************** */
+
+.img-logo, figure {
+    height: 80px;
+    margin: 0 !important;
+}
+
+
+
 /* ********************************************** BOUTTON ********************************************** */
 
 .btn-add {
@@ -74,15 +98,89 @@ label, input {
 .btn-success:hover {
     background-color: var(--backgroundColor2);
 }
+.bg-danger, .bg-success {
+    color: white;
+    font-size: 15px;
+
+}
+
+.submit {
+    background: var(--backgroundColor4);
+    margin: 20px 0 20px 0;
+    border: var(--color3);
+}
+.submit:hover{
+    opacity: 0.8;
+    background: var(--backgroundColor4);
+    
+}
+
+.submit-module {
+    color: white;
+    background: var(--color1);
+    border-radius: 10px;
+    width: 200px;
+    border: var(--color1);
+}
+
+.button {
+    color: white;
+    background: var(--color1);
+    border-radius: 10px;
+    width: 200px;
+    border: var(--color1);
+}
 
 /* ********************************************** TABLEAU ********************************************** */
 
 .table-category {
-    font-weight: 700;
+    font-weight: 600;
     margin-left: 20px;
-
+    font-size: 20px;
+    letter-spacing: 1px;
 }
+
 .table-striped {
     width: 80% !important;
+}
 
+td a {
+    text-decoration: none;
+    cursor: pointer;
+    color: var(--color2);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.table-module {
+    width: 70% !important;
+    margin: auto;
+}
+
+td, th {
+    width: 35% !important;
+    text-align: center;
+}
+
+.th-module {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--color2) !important;
+}
+
+th {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.nb-places {
+    font-size: 18px;
+}
+
+.action {
+    min-width: 115px;
+}
+
+.btn-action {
+    margin-right: 5px;
 }

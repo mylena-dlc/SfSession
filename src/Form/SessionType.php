@@ -52,6 +52,7 @@ class SessionType extends AbstractType
         ])
         ->add('formation', EntityType::class, [
             'class' => Formation::class,
+            'label' => 'Centre de formation',
             'attr' => [
                 'class' => 'btn btn-success'
             ]
@@ -71,7 +72,7 @@ class SessionType extends AbstractType
 
         ->add('valider', SubmitType::class, [
             'attr' => [
-                'class' => 'btn btn-lg btn-primary'
+                'class' => 'btn btn-lg btn-primary submit'
             ]
         ])
     ;
