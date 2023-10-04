@@ -85,8 +85,9 @@
     <ul>
         {% for student in notRegisteredStudents %}
             <li>
-                {{ student.firstname }} </a>
+                 <a href="{{ path('show_student', {'id': student.id}) }}">{{ student.lastname }} {{ student.firstname }} </a>
             </li>
+            <button><a href="{{ path('add_student_session', {'id': session.id, 'student_id': student.id }) }}">Inscrire</a></button>
         {% endfor %}
     </ul>
 {# {% endif %} #}

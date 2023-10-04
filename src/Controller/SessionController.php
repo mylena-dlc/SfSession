@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Session;
+use App\Entity\Student;
 use App\Form\SessionType;
 use App\Repository\ProgramRepository;
 use App\Repository\SessionRepository;
 use App\Repository\StudentRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -96,7 +99,7 @@ class SessionController extends AbstractController
         // on utilise $programRepository pour rechercher les programmes associés à cette session
         $programs = $programRepository->findBy(['session' => $id ]);
         
-        $notRegisteredStudents = $sessionRepository->findStudentsNotRegistered($id);
+        $notRegisteredStudents = $sessionRepository->findStudentsNotRegistered($session->getId());
         // dd($notRegisteredStudents);
 
         return $this->render('session/show.html.twig', [
@@ -108,33 +111,24 @@ class SessionController extends AbstractController
     }
 
     
-    // #[Route('/session/{id}/', name: 'add_student')]
-
-    // public function addStudent(Session $session = null, Request $request, EntityManagerInterface $entityManager): Response {
+   
         
+    // fonction pour inscrire un stagiaire à une session
+    #[Route('/session/{id}/show/add/{student_id}', name: 'add_student_session')]
+    public function addStudentsToSession(EntityManagerInterface $entityManager, Session $session ,Student $student, $id): Response
+    {
 
+        // on ajoute le stagiaire à la session grâce à addStudent présente dans l'entité
+        $session->addStudent($student);
+        // on persiste les modifications en BDD
+        $entityManager->persist($session);
+        $entityManager->flush();
 
-    //     $session->addStudent($student);
-      
-    //     $form = $this->createForm(SessionType::class, $session);
+        // redirection vers la page de détail de la session
+        return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
 
-    //     $form->handleRequest($request);
-
-
-    //     if($form->isSubmitted() && $form->isValid()) {
-
-    //         $session = $form->getData();
-    //         $entityManager->persist($session);
-    //         $entityManager->flush();
-    //         return $this->redirectToRoute('app_session');
-    //     }
-
-    //     return $this->render('session/new.html.twig', [
-    //         'formAddSession' => $form,
-    //         'edit' => $session->getId()
-    //     ]);
-
-    // }   
-
-
+    }
 }
+
+
+
