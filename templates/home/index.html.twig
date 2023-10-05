@@ -4,18 +4,17 @@
 
 {% block body %}
 
-{# pour récupérer les infos de l'user connecter 'app.user' #}
-{% if app.user %}
-    <h1>Bienvenue {{ app.user.pseudo }} </h1> 
+    {# pour récupérer les infos de l'user connecter 'app.user' #}
+    {% if app.user %}
+        <h1>Bienvenue {{ app.user.pseudo }} </h1>
     {% else %}
-    <h1>Bienvenue sur la page d'accueil</h1> 
-    <p>Veuillez vous connecter pour voir les sessions</p>
-{% endif %}
+        <h1>Bienvenue sur la page d'accueil</h1>
+        <p class="p-link">Veuillez vous <a class="link" href="{{ path('app_login')}}">connecter</a> pour voir les sessions</p>
+    {% endif %}
 
-{% if app.user %}
+    {% if app.user %}
 
-
-<h1>Sessions en cours</h1>
+    <h1>Sessions en cours</h1>
 
     <table class="table .table-striped">
         <thead>
@@ -41,18 +40,19 @@
                 <td>{{ session.nbPlacesReserved }}</td>
                 <td>{{ session.nbPlacesRemaining }}</td>
                 <td> {% if session.nbPlacesRemaining == 0 %}
-                    <a href="{{ path('show_session', {'id': session.id}) }}"><button class="btn btn-lg bg-danger">COMPLET</button></a>
-                {% else %}
-                    <a href="{{ path('show_session', {'id': session.id}) }}"><button class="btn btn-lg bg-success">INSCRIPTION DISPONIBLE</button></a>
-                {% endif %}
+                    <a href="{{ path('show_session', {'id': session.id}) }}"><button
+                            class="btn btn-lg bg-danger">COMPLET</button></a>
+                    {% else %}
+                    <a href="{{ path('show_session', {'id': session.id}) }}"><button
+                            class="btn btn-lg bg-success">INSCRIPTION DISPONIBLE</button></a>
+                    {% endif %}
                 </td>
-                
             </tr>
-        
-    {% endfor %}
+
+            {% endfor %}
         </tbody>
     </table>
-    
-{% endif %}
+
+    {% endif %}
 
 {% endblock %}

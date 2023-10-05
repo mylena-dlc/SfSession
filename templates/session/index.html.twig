@@ -7,9 +7,11 @@
 
     <h1>Listes des sessions</h1>
 
-<div class="btn-add">
-    <a href="{{ path ('new_session')}}" class="btn btn-success">Ajouter une session</a>
-</div>
+    {% if is_granted('ROLE_ADMIN') %} {# Si je suis admin #}
+        <div class="btn-add">
+            {# <a href="{{ path ('new_session')}}" class="btn btn-success">Ajouter une session</a> #}
+        </div>
+    {% endif %}  
 
     <table class="table .table-striped">
         <thead>
@@ -39,11 +41,14 @@
                 <td>{{ session.nbPlaces }}</td>
                 <td>{{ session.nbPlacesReserved }}</td>
                 <td>{{ session.nbPlacesRemaining }}</td>
-                <td class="action"><a class="btn btn-warning btn-action" href="{{ path('edit_session', {'id': session.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a class="btn btn-danger" href="{{ path('delete_session', {'id': session.id}) }}"><i class="fa-solid fa-trash"></i></a></td>
+
+                {% if is_granted('ROLE_ADMIN') %} {# Si je suis admin #}
+                    <td class="action"><a class="btn btn-warning btn-action" href="{{ path('edit_session', {'id': session.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a class="btn btn-danger" href="{{ path('delete_session', {'id': session.id}) }}"><i class="fa-solid fa-trash"></i></a></td>
+                {% endif %}  
             </tr>
         
-    {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
 

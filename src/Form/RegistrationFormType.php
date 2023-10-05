@@ -31,19 +31,20 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
+                'mapped' => false, // le champs ne sera pas stocké en BDD
+                'label' => "Cochez cette case pour accepter les conditions d'utilisations",
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez acceptez les conditions.', // message d'erreur si la case n'est pas cochée
                     ]),
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
                 "mapped" => false, // le champs ne sera pas stocké en BDD
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Les mots de passes doivent être identiques.', // message d'erreur si les mdp correspondents pas
                 'options' => ['attr' => ['class' => 'password-field, form-control']],
-                'required' => true,
+                'required' => true, // le mdp est obligatoire
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation du mot de passe'],
             ])

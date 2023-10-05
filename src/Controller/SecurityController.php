@@ -10,6 +10,11 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+
+    /**
+    * Fonction Login
+    */
+
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -25,7 +30,11 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    // Fonction de déconnection
+
+    /**
+    * Fonction de déconnection
+    */
+    
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
@@ -33,7 +42,10 @@ class SecurityController extends AbstractController
     }
 
 
-    // Fonction pour afficher les détails d'un profile
+    /**
+    * Fonction pour afficher les détails d'un profil
+    */
+    
     #[Route(path: '/profile/{id}', name: 'app_profile')]
     public function profile(User $user): Response
     {

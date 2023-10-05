@@ -6,32 +6,50 @@
 
     <h1>Centre de formation de {{ formation }}</h1>
 
-   <table class="table .table-striped">
+    
+    {% if is_granted('ROLE_ADMIN') %} {# Si je suis admin #}
+        <div class="btn-add">
+            <a href="{{ path('new_session', {'formation_id': formation.id}) }}" class="btn btn-success">Ajouter une session</a>
+        </div>
+    {% endif %}  
+
+
+
+    <table class="table .table-striped">
         <thead>
             <tr>
+                <th>Statut</th>
                 <th>Intitulé de la formation</th>
                 <th>Date de début</th>
                 <th>Date de fin</th>
                 <th>Nb places théoriques</th>
                 <th>Nb places réservées</th>
                 <th>Nb places restantes</th>
-
+                <th> </th>
             </tr>
         </thead>
         <tbody>
             {% for session in formation.sessions %}
             <tr>
+                <td> {% if session.nbPlacesRemaining == 0 %}
+                    <a href="{{ path('show_session', {'id': session.id}) }}"><button class="btn btn-lg bg-danger">COMPLET</button></a>
+                {% else %}
+                    <a href="{{ path('show_session', {'id': session.id}) }}"><button class="btn btn-lg bg-success">INSCRIPTION DISPONIBLE</button></a>
+                {% endif %}
+                </td>
                 <td><a href="{{ path('show_session', {'id': session.id}) }}">{{ session.name}}</td>
                 <td>{{ session.startDate | date("d.m.Y") }}</td>
                 <td>{{ session.endDate | date("d.m.Y") }}</td>
                 <td>{{ session.nbPlaces }}</td>
                 <td>{{ session.nbPlacesReserved }}</td>
                 <td>{{ session.nbPlacesRemaining }}</td>
-                <td><a class="btn btn-warning" href="{{ path('edit_session', {'id': session.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a class="btn btn-danger" href="{{ path('delete_session', {'id': session.id}) }}"><i class="fa-solid fa-trash"></i></a></td>
+                {% if is_granted('ROLE_ADMIN') %} {# Si je suis admin #}
+                    <td class="action"><a class="btn btn-warning btn-action" href="{{ path('edit_session', {'id': session.id, 'formation_id': session.formation.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a class="btn btn-danger" href="{{ path('delete_session', {'id': session.id}) }}"><i class="fa-solid fa-trash"></i></a></td>
+                {% endif %}  
+
             </tr>
-        
-    {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
 

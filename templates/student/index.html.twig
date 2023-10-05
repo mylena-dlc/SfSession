@@ -7,21 +7,22 @@
 
     <h1>Listes des stagiaires</h1>
 
-<div class="btn-add">
-    <a href="{{ path ('new_student')}}" class="btn btn-success">Ajouter un stagiaire</a>
-</div>
-
-<div class="lists">
-    {% for student in students %}
-<div class="list">
-    <h3><a href="{{ path('show_student', {'id': student.id}) }}">{{ student.firstname }} {{ student.lastname }}</a></h3>
-    <div class="btn">
-        <a class="btn btn-warning" href="{{ path('edit_student', {'id': student.id}) }}">Modifier</a>
-        <a class="btn btn-danger" href="{{ path('delete_student', {'id': student.id}) }}">Supprimer</a>
+    <div class="btn-add">
+        <a href="{{ path ('new_student')}}" class="btn btn-success">Ajouter un stagiaire</a>
     </div>
-</div>
-        
-    {% endfor %}
-</div>
+
+    <div class="lists">
+        {% for student in students %}
+        <div class="list">
+            <h3><a href="{{ path('show_student', {'id': student.id}) }}">{{ student.firstname }} {{ student.lastname }}</a>
+            </h3>
+            <div class="btn">
+                <a class="btn btn-warning" href="{{ path('edit_student', {'id': student.id}) }}">Modifier</a>
+                <a class="btn btn-danger" href="{{ path('delete_student', {'id': student.id}) }}">Supprimer</a>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
 
 {% endblock %}

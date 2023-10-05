@@ -13,20 +13,42 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ModuleController extends AbstractController
 {
-    #[Route('/module', name: 'app_module')]
-    public function index(ModuleRepository $moduleRepository): Response
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var ModuleRepository
+     */
+    private $moduleRepository;
+
+   
+    public function __construct(ModuleRepository $moduleRepository, EntityManagerInterface $em)
     {
-        $modules = $moduleRepository->findBy([], ['name' => 'ASC']);
+        $this->moduleRepository = $moduleRepository;
+        $this->em = $em;
+
+    }
+    #[Route('/module', name: 'app_module')]
+    public function index(): Response
+    {
+        $modules = $this->moduleRepository->findBy([], ['name' => 'ASC']);
         return $this->render('module/index.html.twig', [
             'modules' => $modules,
         ]);
     }
 
-    // Fonction pour ajouter ou éditer un module
+
+    /**
+    * Fonction pour ajouter ou éditer un module
+    */
+    
     #[Route('/module/new', name: 'new_module')]
     #[Route('/module/{id}/edit', name: 'edit_module')]
 
-    public function new_edit(Module $module = null, Request $request, EntityManagerInterface $entityManager): Response {
+    public function new_edit(Module $module = null, Request $request): Response {
         if(!$module) {
             $module = new Module();
         }
@@ -39,8 +61,8 @@ class ModuleController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
 
             $module = $form->getData();
-            $entityManager->persist($module);
-            $entityManager->flush();
+            $this->em->persist($module);
+            $this->em->flush();
             return $this->redirectToRoute('app_module');
         }
 
@@ -51,14 +73,17 @@ class ModuleController extends AbstractController
 
     }   
 
-    // Fonction pour supprimer un module
+    /**
+    * Fonction pour supprimer un module
+    */
+    
     #[Route('/module/{id}/delete', name: 'delete_module')]
-    public function delete(Module $module, EntityManagerInterface $entityManager) {
+    public function delete(Module $module) {
 
         // pour préparé l'objet $module à supprimer (enlever cet objet de la collection)
-        $entityManager->remove($module);
+        $this->em->remove($module);
         // flush va faire la requête SQL et concretement supprimer l'objet de la BDD
-        $entityManager->flush();
+        $this->em->flush();
 
         return $this->redirectToRoute('app_module');
     }

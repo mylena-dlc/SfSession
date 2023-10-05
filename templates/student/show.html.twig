@@ -6,8 +6,8 @@
 
     <h1>Fiche stagiaire</h1>
 
-    <h2>{{ student.firstname }} {{ student.lastname }}</h2>
-    <p> 
+    <h3>{{ student.firstname }} {{ student.lastname }}</h3>
+    <p>
         Sexe : {{ student.sexe }} <br>
         Date de naissance : {{ student.birthDate | date("d.m.Y") }} ({{ student.age }} ans) <br>
         Ville : {{ student.city }} <br>
@@ -18,13 +18,14 @@
 
     <h2>Sessions prévues</h2>
 
-<ul>
-{% for session in student.sessions %}
+    <ul>
+        {% for session in student.sessions %}
 
-    <li> <strong> {{ session.name }} </strong> (du {{ session.startDate | date('d.m.Y')}} au {{ session.endDate | date('d.m.Y') }})</li>
-{% endfor %}
+        <li class="list-session"> <a href="{{ path('show_session', {'id': session.id}) }}"> <strong> {{ session.name }}
+                </strong> (du {{ session.startDate | date('d.m.Y')}} au {{ session.endDate | date('d.m.Y') }})</a></li>
+        {% endfor %}
 
-   </ul>
+    </ul>
 
 
-{% endblock %} 
+{% endblock %}

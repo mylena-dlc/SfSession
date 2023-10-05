@@ -39,16 +39,12 @@ class Session
     #[ORM\JoinColumn(nullable: false)]
     private ?Formation $formation = null;
 
-    // #[ORM\OneToMany(targetEntity: Program::class, mappedBy: 'session', cascade={"persist"}, orphanRemoval=true)]
-    // #[ORM\OrderBy(['module' => 'ASC'])]
+    #[ORM\OneToMany(targetEntity: Program::class, mappedBy: 'session', cascade:['persist'], orphanRemoval:true)]
+    #[ORM\OrderBy(['module' => 'ASC'])]
 
-    // private Collection $programs;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Program", mappedBy="session", cascade={"persist"}, orphanRemoval=true)
-     * @ORM\OrderBy({"module" = "ASC"})
-     */
     private Collection $programs;
+
+
 
 
     public function __construct()
@@ -199,6 +195,8 @@ class Session
         $nbPlacesRemaining = $this->getNbPlaces() - $nbPlacesReserved;
         return $nbPlacesRemaining;
     }
+
+    
     
     public function __toString()
     {

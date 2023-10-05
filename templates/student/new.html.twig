@@ -8,34 +8,34 @@
     <h1>Ajouter un stagiaire</h1>
 
     {{ form_start(formAddStudent) }}
-    
+
     <div class="row">
-        <div class="col-sm">  
+        <div class="col-sm">
             {{ form_row(formAddStudent.lastname) }}
-            {{ form_row(formAddStudent.firstname) }} 
+            {{ form_row(formAddStudent.firstname) }}
         </div>
-    </div> 
+    </div>
     <div class="row">
         <div class="col-sm">
-            {{ form_row(formAddStudent.sexe) }} 
-            {{ form_row(formAddStudent.birthDate) }} 
+            {{ form_row(formAddStudent.sexe) }}
+            {{ form_row(formAddStudent.birthDate) }}
         </div>
-    </div> 
+    </div>
     <div class="row">
         <div class="col-sm">
-            {{ form_row(formAddStudent.city) }} 
-            {{ form_row(formAddStudent.email) }} 
+            {{ form_row(formAddStudent.city) }}
+            {{ form_row(formAddStudent.email) }}
         </div>
-    </div> 
+    </div>
     <div class="row">
         <div class="col-sm">
-            {{ form_row(formAddStudent.phone) }} 
+            {{ form_row(formAddStudent.phone) }}
             {{ form_row(formAddStudent.valider) }}
         </div>
-    </div> 
-    
+    </div>
+
     {{ form_end(formAddStudent) }}
 
 
-    
+
 {% endblock %}

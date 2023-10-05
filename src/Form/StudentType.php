@@ -63,7 +63,7 @@ class StudentType extends AbstractType
         ])
         ->add('valider', SubmitType::class, [
             'attr' => [
-                'class' => 'btn btn-lg btn-primary'
+                'class' => 'btn btn-lg btn-primary submit'
             ]
         ]);
 

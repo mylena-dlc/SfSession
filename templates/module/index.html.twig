@@ -7,22 +7,27 @@
 
     <h1>Listes des modules</h1>
 
-<div class="btn-add">
-    <a href="{{ path ('new_module')}}" class="btn btn-success">Ajouter un module</a>
-</div>
-
-<div class="lists">
-    {% for module in modules %}
-
-    <div class="list">
-        <h3>{{ module }}</h3>
-        <div class="btn">
-            <a class="btn btn-warning" href="{{ path('edit_module', {'id': module.id}) }}">Modifier</a>
-            <a class="btn btn-danger" href="{{ path('delete_module', {'id': module.id}) }}">Supprimer</a>
+    {% if is_granted('ROLE_ADMIN') %} {# Si je suis admin #}
+        <div class="btn-add">
+            <a href="{{ path ('new_module')}}" class="btn btn-success">Ajouter un module</a>
         </div>
+    {% endif %}
+
+    <div class="lists">
+        {% for module in modules %}
+
+        <div class="list">
+            <h3>{{ module }}</h3>
+            {% if is_granted('ROLE_ADMIN') %} {# Si je suis admin #}
+                <div class="btn">
+                    <a class="btn btn-warning" href="{{ path('edit_module', {'id': module.id}) }}">Modifier</a>
+                    <a class="btn btn-danger" href="{{ path('delete_module', {'id': module.id}) }}">Supprimer</a>
+                </div>
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
     </div>
-        
-    {% endfor %}
-</div>
 
 {% endblock %}

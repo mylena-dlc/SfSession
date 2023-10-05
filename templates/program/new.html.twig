@@ -8,30 +8,26 @@
     <h1>Ajouter un programme</h1>
 
     {{ form_start(formAddProgram) }}
-    
+
     <div class="row">
         <div class="col-sm">
-            {{ form_row(formAddProgram.session) }} 
+            {{ form_row(formAddProgram.session) }}
         </div>
-    </div> 
+    </div>
     <div class="row">
         <div class="col-sm">
-            {{ form_row(formAddProgram.module) }} 
+            {{ form_row(formAddProgram.module) }}
         </div>
         <div class="col-sm">
-
-            {{ form_row(formAddProgram.nbDays) }} 
+            {{ form_row(formAddProgram.nbDays) }}
         </div>
-    </div> 
-
-    </div> 
-
+    </div>
     <div class="row">
         <div class="col-sm">
             {{ form_row(formAddProgram.valider) }}
         </div>
-    </div> 
-    
+    </div>
+
     {{ form_end(formAddProgram) }}
-    
+
 {% endblock %}

@@ -79,7 +79,6 @@ class SessionRepository extends ServiceEntityRepository
 //         ->where($qb2->expr()->notIn('student2.id', $registeredStudentIds))
 //         ->getQuery()
 //         ->getResult();
-
 //     return $notRegisteredStudents;
 // }
 
@@ -91,32 +90,30 @@ class SessionRepository extends ServiceEntityRepository
         // on fait appel à l'EntityManager pour intéragir avec la BDD
         $entityManager = $this->getEntityManager();
 
+
         // Sous-requête pour récupérer les étudiants inscrits
 
-        $sub = $entityManager->createQueryBuilder(); // on crée une instance de l'obet 'QueryBuilder'
-        $sub->select('i.id') // on selectionne uniquement les id des stagiaires inscrit
-            ->from('App\Entity\Student', 'i') // table Student
-            ->leftJoin('i.sessions', 's') // rejoind la relation Session pour trouver les inscriptions
+        $sub = $entityManager->createQueryBuilder(); // on crée une instance de l'obet 'QueryBuilder' - $sub car "subquery" = sous-requête
+        $sub->select('st.id') // on selectionne uniquement les id des stagiaires inscrit
+            ->from('App\Entity\Student', 'st') // table Student
+            ->leftJoin('st.sessions', 's') // rejoind la relation Session pour trouver les inscriptions
             ->where('s.id = :id'); // où id.session = session.id
 
 
         // Requête principale pour récupérer les étudiants non inscrits
 
-        $qb = $entityManager->createQueryBuilder();
-        $qb->select('e') // on selectionne l'objet Student complet
-            ->from('App\Entity\Student', 'e') // de la table Student
-            ->where($qb->expr()->notIn('e.id', $sub->getDQL())) // on utilise la sous requête pour exclure les étudiants inscrits
+        $qb = $entityManager->createQueryBuilder(); // $qb car 'query builder' = constructeur de requête
+        $qb->select('stu') // on selectionne l'objet Student complet
+            ->from('App\Entity\Student', 'stu') // de la table Student
+            ->where($qb->expr()->notIn('stu.id', $sub->getDQL())) // on utilise la sous requête pour exclure les étudiants inscrits
             ->setParameter('id', $id) // on définit le paramètre :id avec la valeur fournie
-            ->orderBy('e.lastname'); // on trie les résultats par nom de famille
+            ->orderBy('stu.lastname'); // on trie les résultats par nom de famille
 
-        // on execute la requête principale
+        // getQuery retourne la requête principale
         $query = $qb->getQuery();
-        return $query->getResult(); // on retourne la liste des étudiants non inscrit à la session
+        // on retourne la liste des étudiants non inscrit à la session (getResult récupère un jeu de résultats)
+        return $query->getResult(); 
     }
-
-
-
-
 
 
 

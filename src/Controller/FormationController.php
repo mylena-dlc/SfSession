@@ -13,22 +13,44 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FormationController extends AbstractController
 {
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var FormationRepository
+     */
+    private $formationRepository;
+    
+
+   
+    public function __construct(FormationRepository $formationRepository, EntityManagerInterface $em)
+    {
+        $this->formationRepository = $formationRepository;
+        $this->em = $em;
+
+    }
     
     #[Route('/formation', name: 'app_formation')]
-    public function index(FormationRepository $formationRepository): Response
+    public function index(): Response
     {
-        $formations = $formationRepository->findBy([], ['name' => 'ASC']);
+        $formations = $this->formationRepository->findBy([], ['name' => 'ASC']);
         return $this->render('formation/index.html.twig', [
             'formations' => $formations,
         ]);
     }
     
 
-    // Fonction pour ajouter ou éditer une formation
+    /**
+    * Fonction pour ajouter ou éditer une formation
+    */
+
     #[Route('/formation/new', name: 'new_formation')]
     #[Route('/formation/{id}/edit', name: 'edit_formation')]
 
-    public function new_edit(Formation $formation = null, Request $request, EntityManagerInterface $entityManager): Response {
+    public function new_edit(Formation $formation = null, Request $request): Response {
     
         if(!$formation) {
             $formation = new formation();
@@ -42,9 +64,9 @@ class FormationController extends AbstractController
 
             $formation = $form->getData(); 
             // prepare en PDO
-            $entityManager->persist($formation);
+            $this->em->persist($formation);
             // execute PDO
-            $entityManager->flush();
+            $this->em->flush();
 
             return $this->redirectToRoute('app_formation');
         }
@@ -56,21 +78,27 @@ class FormationController extends AbstractController
 
     }   
 
-
-    // Fonction pour supprimer une formation
+    /**
+    * Fonction pour supprimer une formation
+    */
+   
     #[Route('/formation/{id}/delete', name: 'delete_formation')]
-    public function delete(Formation $formation, EntityManagerInterface $entityManager) {
+    public function delete(Formation $formation) {
 
         // pour préparé l'objet $formation à supprimer (enlever cet objet de la collection)
-        $entityManager->remove($formation);
+        $this->em->remove($formation);
         // flush va faire la requête SQL et concretement supprimer l'objet de la BDD
-        $entityManager->flush();
+        $this->em->flush();
 
         return $this->redirectToRoute('app_formation');
     }
 
 
-    // Fonction pour afficher les détails d'une formation
+
+    /**
+    * Fonction pour afficher les détails d'une formation
+    */
+
     #[Route('/formation/{id}', name: 'show_formation')]
     public function show(Formation $formation): Response {
 

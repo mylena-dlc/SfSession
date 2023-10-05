@@ -19,7 +19,7 @@ class ProgramType extends AbstractType
     {
         $builder
 
-            ->add('session', HiddenType::class) // on cache la session car elle sera automatiquement récupéré dans la session
+            // ->add('session', HiddenType::class) // on cache la session car elle sera automatiquement récupéré dans la session
             ->add('module', EntityType::class, [
                 'class' => Module::class,
                 'label' => 'Module',

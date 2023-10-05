@@ -7,22 +7,26 @@
 
     <h1>Listes des catégories</h1>
 
-<div class="btn-add">
-    <a href="{{ path ('new_category')}}" class="btn btn-success">Ajouter une categorie</a>
-</div>
-
-<div class="lists">
-    {% for category in categories %}
-
-    <div class="list">
-        <h3><a href="{{ path('show_category', {'id': category.id}) }}">{{ category }}</a></h3>
-        <div class="btn">
-            <a class="btn btn-warning" href="{{ path('edit_category', {'id': category.id}) }}">Modifier</a>
-            <a class="btn btn-danger" href="{{ path('delete_category', {'id': category.id}) }}">Supprimer</a>
+    {% if is_granted('ROLE_ADMIN') %} {# Si je suis admin #}
+        <div class="btn-add">
+            <a href="{{ path ('new_category')}}" class="btn btn-success">Ajouter une categorie</a>
         </div>
+    {% endif %}
+
+    <div class="lists">
+        {% for category in categories %}
+
+        <div class="list">
+            <h3><a href="{{ path('show_category', {'id': category.id}) }}">{{ category }}</a></h3>
+            {% if is_granted('ROLE_ADMIN') %} {# Si je suis admin #}
+                <div class="btn">
+                    <a class="btn btn-warning" href="{{ path('edit_category', {'id': category.id}) }}">Modifier</a>
+                    <a class="btn btn-danger" href="{{ path('delete_category', {'id': category.id}) }}">Supprimer</a>
+                </div>
+            {% endif %}
+        </div>
+
+        {% endfor %}
     </div>
-        
-    {% endfor %}
-</div>
 
 {% endblock %}

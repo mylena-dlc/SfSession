@@ -13,21 +13,44 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProgramController extends AbstractController
 {
-    #[Route('/program', name: 'app_program')]
-    public function index(ProgramRepository $programRepository): Response
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var ProgramRepository
+     */
+    private $programRepository;
+
+   
+    public function __construct(ProgramRepository $programRepository, EntityManagerInterface $em)
     {
-        $programs = $programRepository->findBy([]);
+        $this->programRepository = $programRepository;
+        $this->em = $em;
+
+    }
+
+
+    #[Route('/program', name: 'app_program')]
+    public function index(): Response
+    {
+        $programs = $this->programRepository->findBy([]);
         return $this->render('program/index.html.twig', [
             'programs' => $programs,
         ]);
     }
 
 
-    // Fonction pour ajouter ou éditer un programme
+    /**
+    * Fonction pour ajouter ou éditer un programme
+    */
+    
     #[Route('/program/new', name: 'new_program')]
     #[Route('/program/{id}/edit', name: 'edit_program')]
 
-    public function new_edit(Program $program = null, Request $request, EntityManagerInterface $entityManager): Response {
+    public function new_edit(Program $program = null, Request $request): Response {
         if(!$program) {
             $program = new Program();
         }
@@ -40,8 +63,8 @@ class ProgramController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
 
             $program = $form->getData();
-            $entityManager->persist($program);
-            $entityManager->flush();
+            $this->em->persist($program);
+            $this->em->flush();
             return $this->redirectToRoute('app_program');
         }
 
@@ -53,20 +76,26 @@ class ProgramController extends AbstractController
     }   
 
 
-    // Fonction pour supprimer un programme
+    /**
+    * Fonction epour supprimer un programme
+    */
+
     #[Route('/program/{id}/delete', name: 'delete_program')]
-    public function delete(Program $program, EntityManagerInterface $entityManager) {
+    public function delete(Program $program) {
 
         // pour préparé l'objet $program à supprimer (enlever cet objet de la collection)
-        $entityManager->remove($program);
+        $this->em->remove($program);
         // flush va faire la requête SQL et concretement supprimer l'objet de la BDD
-        $entityManager->flush();
+        $this->em->flush();
 
         return $this->redirectToRoute('app_program');
     }
 
 
-    // Fonction pour afficher les détails d'un programme
+    /**
+    * Fonction pour afficher les détails d'un programme
+    */
+   
     #[Route('/program/{id}', name: 'show_program')]
     public function show(Program $program): Response {
 

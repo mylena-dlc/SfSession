@@ -50,13 +50,13 @@ class SessionType extends AbstractType
             ],
             "required" => true
         ])
-        ->add('formation', EntityType::class, [
-            'class' => Formation::class,
-            'label' => 'Centre de formation',
-            'attr' => [
-                'class' => 'btn btn-success'
-            ]
-        ])
+        // ->add('formation', EntityType::class, [
+        //     'class' => Formation::class,
+        //     'label' => 'Centre de formation',
+        //     'attr' => [
+        //         'class' => 'btn btn-success'
+        //     ]
+        // ])
         ->add('programs', CollectionType::class, [
             // la collection attend l'élément qui entrera dans le form, ce n'est pas obligatoire que ce soit un autre form
             'entry_type' => ProgramType::class,

@@ -13,21 +13,42 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategoryController extends AbstractController
 {
-    #[Route('/category', name: 'app_category')]
-    public function index(CategoryRepository $categoryRepository): Response
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+       
+    public function __construct(EntityManagerInterface $em, CategoryRepository $categoryRepository)
     {
-        $categories = $categoryRepository->findBy([], ['name' => 'ASC']);
+        $this->em = $em;
+        $this->categoryRepository = $categoryRepository;
+    }
+
+
+    #[Route('/category', name: 'app_category')]
+    public function index(): Response
+    {
+        $categories = $this->categoryRepository->findBy([], ['name' => 'ASC']);
         return $this->render('category/index.html.twig', [
             'categories' => $categories,
         ]);
     }
 
-
-    // Fonction pour ajouter ou éditer une catégorie
+    /**
+    * Fonction pour ajouter ou éditer une catégorie
+    */
+ 
     #[Route('/category/new', name: 'new_category')]
     #[Route('/category/{id}/edit', name: 'edit_category')]
 
-    public function new_edit(Category $category = null, Request $request, EntityManagerInterface $entityManager): Response {
+    public function new_edit(Category $category = null, Request $request): Response {
     
 
         if(!$category) {
@@ -42,9 +63,9 @@ class CategoryController extends AbstractController
 
             $category = $form->getData(); 
             // prepare en PDO
-            $entityManager->persist($category);
+            $this->em->persist($category);
             // execute PDO
-            $entityManager->flush();
+            $this->em->flush();
 
             return $this->redirectToRoute('app_category');
         }
@@ -57,20 +78,26 @@ class CategoryController extends AbstractController
     }   
 
 
-    // Fonction pour supprimer une catégorie
+    /**
+    * Fonction pour supprimer une catégorie
+    */
+    
     #[Route('/category/{id}/delete', name: 'delete_category')]
-    public function delete(Category $category, EntityManagerInterface $entityManager) {
+    public function delete(Category $category) {
 
         // pour préparé l'objet $category à supprimer (enlever cet objet de la collection)
-        $entityManager->remove($category);
+        $this->em->remove($category);
         // flush va faire la requête SQL et concretement supprimer l'objet de la BDD
-        $entityManager->flush();
+        $this->em->flush();
 
         return $this->redirectToRoute('app_category');
     }
 
     
-    // Fonction pour afficher les détails d'une catégorie
+    /**
+    * Fonction pour afficher les détails d'une catégorie
+    */
+  
     #[Route('/category/{id}', name: 'show_category')]
     public function show(Category $category): Response {
 

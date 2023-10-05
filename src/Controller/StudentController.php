@@ -13,20 +13,45 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StudentController extends AbstractController
 {
-    #[Route('/student', name: 'app_student')]
-    public function index(StudentRepository $studentRepository): Response
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var StudentRepository
+     */
+    private $studentRepository;
+
+   
+    public function __construct(StudentRepository $studentRepository, EntityManagerInterface $em)
     {
-        $students = $studentRepository->findBy([], ['lastname' => 'ASC']);
+        $this->studentRepository = $studentRepository;
+        $this->em = $em;
+
+    }
+
+
+
+    #[Route('/student', name: 'app_student')]
+    public function index(): Response
+    {
+        $students = $this->studentRepository->findBy([], ['lastname' => 'ASC']);
         return $this->render('student/index.html.twig', [
             'students' => $students,
         ]);
     }
 
-    // Fonction pour ajouter ou editer un stagiaire
+
+    /**
+     * Fonction pour ajouter ou editer un stagiaire
+    */
+
     #[Route('/student/new', name: 'new_student')]
     #[Route('/student/{id}/edit', name: 'edit_student')]
 
-    public function new_edit(Student $student = null, Request $request, EntityManagerInterface $entityManager): Response {
+    public function new_edit(Student $student = null, Request $request): Response {
         if(!$student) {
             $student = new Student();
         }
@@ -39,8 +64,8 @@ class StudentController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
 
             $student = $form->getData();
-            $entityManager->persist($student);
-            $entityManager->flush();
+            $this->em->persist($student);
+            $this->em->flush();
             return $this->redirectToRoute('app_student');
         }
 
@@ -52,20 +77,27 @@ class StudentController extends AbstractController
     }   
 
 
-    // Fonction pour supprimer un stagiaire
+    /**
+     * Fonction pour supprimer un stagiaire
+    */
+
     #[Route('/student/{id}/delete', name: 'delete_student')]
-    public function delete(Student $student, EntityManagerInterface $entityManager) {
+    public function delete(Student $student) {
 
         // pour préparé l'objet $student à supprimer (enlever cet objet de la collection)
-        $entityManager->remove($student);
+        $this->em->remove($student);
         // flush va faire la requête SQL et concretement supprimer l'objet de la BDD
-        $entityManager->flush();
+        $this->em->flush();
 
         return $this->redirectToRoute('app_student');
     }
 
+    
 
-    // Fonciton pour afficher les détails d'un stagiaire
+    /**
+     * Fonction pour afficher les détails d'un stagiaire
+    */
+
     #[Route('/student/{id}', name: 'show_student')]
     public function show(Student $student): Response {
 
