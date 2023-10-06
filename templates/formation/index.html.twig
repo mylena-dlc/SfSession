@@ -17,7 +17,7 @@
     <div class="lists">
         {% for formation in formations %}
         <div class="list">
-            <h3><a href="{{ path('show_formation', {'id': formation.id}) }}">{{formation }}</a></h3>
+            <h3><a href="{{ path('show_formation', {'id': formation.id}) }}" class="link-formation">{{formation }}</a></h3>
             
             {% if is_granted('ROLE_ADMIN') %} {# Si je suis admin #}
                 <div class="btn">

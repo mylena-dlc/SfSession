@@ -27,9 +27,7 @@
         </tbody>
     </table>
 
-
-    <hr>
-
+    <br>
 
     <h2 class="titre-module">Programme de la session</h2>
 
@@ -46,33 +44,42 @@
 
             {% for program in programs %}
             {# si la catégorie est differente de la catégorie actuelle, alors je l'affiche #}
-            {% if program.module.category != currentCategory %}
-            <tr>
-                <td colspan="2" class="table-category">{{ program.module.category }}</td>
-            </tr>
-            <tr>
-                <td>{{ program.module }}</td>
-                <td>{{ program.nbDays }}</td>
-            </tr>
-            {# puis on passe la catégorie en valeur de currentCategory #}
-            {% set currentCategory = program.module.category %}
-            {# sinon, on continue d'afficher les modules #}
-            {% else %}
-            <tr>
-                <td>{{ program.module }}</td>
-                <td>{{ program.nbDays }}</td>
-            </tr>
-            {% endif %}
+                {% if program.module.category != currentCategory %}
+                    <tr>
+                        <td colspan="2" class="table-category">{{ program.module.category }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ program.module }}</td>
+                        <td>{{ program.nbDays }}</td>
+                    </tr>
+                    {# puis on passe la catégorie en valeur de currentCategory #}
+                    {% set currentCategory = program.module.category %}
+                    {# sinon, on continue d'afficher les modules #}
+                    {% else %}
+                    <tr>
+                        <td>{{ program.module }}</td>
+                        <td>{{ program.nbDays }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>
 
-
-    <hr>
+    <br>
 
     {% if is_granted('ROLE_ADMIN') %} {# Si je suis admin #}
 
         <h2> Stagiaires inscrits</h2>
+
+        {# div des messages flash #}
+        <div class="alert">
+            {% for flashMessage in app.flashes('success') %}
+            <p class="alert-success">{{ flashMessage }}</p>
+            {% endfor %}
+            {% for flashMessage in app.flashes('error') %}
+            <p class="alert-danger">{{ flashMessage }}</p>
+            {% endfor %}
+        </div>
 
         {% if session.students is empty %}
         <p class="p-table">Aucun stagiaire inscrit</p>
@@ -99,41 +106,34 @@
         </table>
         {% endif %}
 
+    <br>
 
-        <hr>
+    <h2>Stagiaires non inscrits</h2>
 
+    <table class="table .table-striped table-module">
+        <thead>
+            <tr>
+                <th class="th-module">Stagiaire</th>
+                <th class="th-module">Statut</th>
+            </tr>
+        </thead>
+        <tbody>
 
-        <h2>Stagiaires non inscrits</h2>
+            {% for student in notRegisteredStudents %}
+            <tr>
+                <td class="td-student">
+                    <a href="{{ path('show_student', {'id': student.id}) }}"> {{ student.lastname }} {{ student.firstname }}
+                    </a>
+                </td>
+                <td class="td-student">
+                    <button class="btn btn-lg btn-primary submit"><a
+                            href="{{ path('add_student_session', {'id': session.id, 'student_id': student.id }) }}">Inscrire</a></button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-        {% if notRegisteredStudents is empty %}
-        <p class="p-table">Tous les stagiaires sont inscrits à cette session.</p>
-
-        {# {% elseif session.nbPlacesRemaining == 0 %} #}
-        <p class="p-table"><strong>Session complète </strong>: l'inscription de nouveaux stagiaires est indisponible</p>
-
-        {% else %}
-
-        <table class="table .table-striped table-module">
-            <thead>
-                <tr>
-                    <th class="th-module">Stagiaire</th>
-                    <th class="th-module">Statut</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for student in notRegisteredStudents %}
-                <tr>
-                    <td class="td-student"> <a href="{{ path('show_student', {'id': student.id}) }}"> {{ student.lastname }} {{
-                            student.firstname }} </a></td>
-                    <td class="td-student"> <button class="btn btn-lg btn-primary submit"><a
-                                href="{{ path('add_student_session', {'id': session.id, 'student_id': student.id }) }}">Inscrire</a></button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        {% endif %}
-    {% endif %}
+{% endif %}
 
 {% endblock %}

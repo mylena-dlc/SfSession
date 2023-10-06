@@ -17,7 +17,7 @@
         {% for category in categories %}
 
         <div class="list">
-            <h3><a href="{{ path('show_category', {'id': category.id}) }}">{{ category }}</a></h3>
+            <h3><a href="{{ path('show_category', {'id': category.id}) }}" class="link-formation">{{ category }}</a></h3>
             {% if is_granted('ROLE_ADMIN') %} {# Si je suis admin #}
                 <div class="btn">
                     <a class="btn btn-warning" href="{{ path('edit_category', {'id': category.id}) }}">Modifier</a>

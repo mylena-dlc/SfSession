@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Formation;
 use App\Form\FormationType;
 use App\Repository\FormationRepository;
+use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,6 +38,7 @@ class FormationController extends AbstractController
     public function index(): Response
     {
         $formations = $this->formationRepository->findBy([], ['name' => 'ASC']);
+        
         return $this->render('formation/index.html.twig', [
             'formations' => $formations,
         ]);
@@ -100,10 +102,31 @@ class FormationController extends AbstractController
     */
 
     #[Route('/formation/{id}', name: 'show_formation')]
-    public function show(Formation $formation): Response {
+    public function show(Formation $formation, SessionRepository $sessionRepository, $id): Response {
+
+        $sessions = $sessionRepository->findBy(['formation' => $id]);
+
+        // on récupère la date actuelle
+        $currentDate = new \DateTime();
+
+        // on sépare les sessions en cours et les sessions passées
+        $currentSessions = [];
+        $pastSessions = [];
+
+        // on parcourt le tableau des sessions
+        foreach ($sessions as $session) {
+            if($session->getEndDate() >= $currentDate) { // si la date de fin est supérieur à la date du jour
+                $currentSessions[] = $session; // alors cette sessions ira dans le tableau des sessions en cours
+            } else {
+                $pastSessions[] = $session; // sinon la session ira dans le tableau des sessions passées
+            }
+        }
+
 
         return $this->render('formation/show.html.twig', [
             'formation' => $formation,
+            'currentSessions' => $currentSessions,
+            'pastSessions' => $pastSessions
         ]);
 
     }

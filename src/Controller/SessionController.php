@@ -60,30 +60,48 @@ class SessionController extends AbstractController
         // on utilise le service SessionRepository pour récupérer toutes les sessions
         // findBy([], ['startDate' => 'ASC']) signifie : trouver toutes les sessions, triées par date de début (startDate) par ordre croissant (ASC)
         $sessions = $this->sessionRepository->findBy([], ['startDate' => 'DESC']);
-        
+
+        // on récupère la date actuelle
+        $currentDate = new \DateTime();
+
+        // on sépare les sessions en cours et les sessions passées
+        $currentSessions = [];
+        $pastSessions = [];
+
+        // on parcourt le tableau des sessions
+        foreach ($sessions as $session) {
+            if($session->getEndDate() >= $currentDate) { // si la date de fin est supérieur à la date du jour
+                $currentSessions[] = $session; // alors cette sessions ira dans le tableau des sessions en cours
+            } else {
+                $pastSessions[] = $session; // sinon la session ira dans le tableau des sessions passées
+            }
+        }
+
         // on renvoie une réponse HTML en utilisant un template Twig
         // on passe les données de session (les sessions récupérées) au template pour les afficher.
         // 'sessions' est la variable utilisée dans le template Twig pour accéder aux sessions
         return $this->render('session/index.html.twig', [
-            'sessions' => $sessions
+            'currentSessions' => $currentSessions,
+            'pastSessions' => $pastSessions
         ]);
     }
 
 
 
     /**
-    * Fonction pour ajouter ou editer une session
+    * Fonction pour ajouter une session
     */
 
     #[Route('/{formation_id}/session/new', name: 'new_session')]
 
     public function new( Request $request, $formation_id): Response {
        
-        // on vérifie si une session existe déjà, sinon on crée une nouvelle instance
-      
-            $session = new Session();
+        // on crée une nouvelle instance
+        $session = new Session();
     
+        // on cherche l'id de la formation
         $formation = $this->formationRepository->find($formation_id);
+
         // on crée un formulaire en utilisant la classe SessionType et associe la session à ce formulaire
         $form = $this->createForm(SessionType::class, $session);
 
@@ -95,12 +113,12 @@ class SessionController extends AbstractController
 
             $session = $form->getData(); // récupère les données du formulaire
 
-            $session->setFormation($formation);
-            // dd($session);
+            $session->setFormation($formation); // on ajoute l'id de la formation à session
+            
             // persiste la session en BDD (enregistrer les données de l'objet Session en BDD, ajouter ou mettre à jour):
             $this->em->persist($session); // indique à Doctrine de suivre cette instance de Session pour une eventuelle opération de persistance
             $this->em->flush(); // envoie réellement les opérations en BDD
-            return $this->redirectToRoute('app_formation' , ['id' => $formation_id]); // redirection vers la page
+            return $this->redirectToRoute('show_formation' , ['id' => $formation_id]); // redirection vers la page
         }
 
         // affiche la vue pour le formulaire d'ajout ou d'édition
@@ -112,18 +130,17 @@ class SessionController extends AbstractController
 
     }   
 
+
     /**
-    * Fonction pour ajouter ou editer une session
+    * Fonction pour editer une session
     */
 
   
-    #[Route('/session/{id}/edit', name: 'edit_session')]
+    #[Route('formaton/{formation_id}/session/{id}/edit', name: 'edit_session')]
 
-    public function new_edit(Session $session = null, Request $request, $id): Response {
+    public function edit(Session $session = null, Request $request, $formation_id): Response {
        
 
-
-        // $formation = $this->formationRepository->find($formation_id);
         // on crée un formulaire en utilisant la classe SessionType et associe la session à ce formulaire
         $form = $this->createForm(SessionType::class, $session);
 
@@ -135,12 +152,11 @@ class SessionController extends AbstractController
 
             $session = $form->getData(); // récupère les données du formulaire
 
-            // $session->setFormation($formation);
-            // dd($session);
+
             // persiste la session en BDD (enregistrer les données de l'objet Session en BDD, ajouter ou mettre à jour):
             $this->em->persist($session); // indique à Doctrine de suivre cette instance de Session pour une eventuelle opération de persistance
             $this->em->flush(); // envoie réellement les opérations en BDD
-            return $this->redirectToRoute('show_session' , ['id' => $id]); // redirection vers la page
+            return $this->redirectToRoute('show_formation' , ['id' => $formation_id]); // redirection vers la page
         }
 
         // affiche la vue pour le formulaire d'ajout ou d'édition
@@ -158,15 +174,18 @@ class SessionController extends AbstractController
     * Fonction pour supprimer une session
     */
 
-    #[Route('/session/{id}/delete', name: 'delete_session')]
-    public function delete(Session $session) {
+    #[Route('formation/{formation_id}/session/{id}/delete', name: 'delete_session')]
+    public function delete(Session $session, $formation_id) {
+
+        
 
         // pour préparé l'objet $session à supprimer (enlever cet objet de la collection)
         $this->em->remove($session);
         // flush va faire la requête SQL et concretement supprimer l'objet de la BDD
         $this->em->flush();
 
-        return $this->redirectToRoute('app_session');
+        // on redirige vers le détail de la formation en récupérant l'id de la formation dans la route (et le bouton de suppression)
+        return $this->redirectToRoute('show_formation', ['id' => $formation_id ]);
     }
 
 
@@ -208,26 +227,29 @@ class SessionController extends AbstractController
     #[Route('/session/{id}/show/add/{student_id}', name: 'add_student_session')]
     public function addStudentsToSession(Session $session, $student_id): Response
     {
+        // si les places restantes sont supérieur à 0, alors je peux inscrire un stagiaire
+        if($session->getNbPlacesRemaining() > 0) {
 
-        // if($session->getNbPlacesRemaining() == 0) {
-        //     $this->addFlash('')
-        // } else {
-        
             $student = $this->studentRepository->find($student_id);
             
-            // on ajoute le stagiaire à la session grâce à addStudent présente dans l'entité
+            // on ajoute le stagiaire à la session grâce à addStudent présente dans l'entité Session
             $session->addStudent($student);
             // on persiste les modifications en BDD
             $this->em->persist($session);
             $this->em->flush();
+            $this->addFlash('success', 'Le stagiaire a bien été inscrit !');
 
-            // redirection vers la page de détail de la session
-            return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
-
+        } else {
+            $this->addFlash('error', 'La formation est complète vous ne pouvez plus inscrire de stagiaire !');
+        }           
         
+        // redirection vers la page de détail de la session
+            return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
 
-        /**
+
+
+    /**
     * Fonction pour désinscrire un stagiaire à une session
     */
    
@@ -237,11 +259,21 @@ class SessionController extends AbstractController
 
         $student = $this->studentRepository->find($student_id);
         
-        // on supprime le stagiaire à la session grâce à removeStudent présente dans l'entité
-        $session->removeStudent($student);
-        // on persiste les modifications en BDD
-        $this->em->persist($session);
-        $this->em->flush();
+        try {
+
+            // on supprime le stagiaire à la session grâce à removeStudent présente dans l'entité
+            $session->removeStudent($student);
+            // on persiste les modifications en BDD
+            $this->em->persist($session);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Le stagiaire a bien été désinscrit !');
+
+
+        } catch (\Exception $e) {
+
+            $this->addFlash('error', "Le stagiaire n/'a pas été supprimé !");
+        }
 
         // redirection vers la page de détail de la session
         return $this->redirectToRoute('show_session', ['id' => $session->getId()]);

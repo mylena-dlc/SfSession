@@ -15,6 +15,9 @@
     --color2: #434343;
     --color3: rgb(247,144,16);
 
+    --red: rgb(187, 13, 13);
+    --green: rgb(26, 138, 41);
+
 }
 .mb-lg-0 {
     display: flex;
@@ -144,7 +147,6 @@ label, input {
 .bg-danger, .bg-success {
     color: white;
     font-size: 15px;
-
 }
 
 .submit {
@@ -155,7 +157,6 @@ label, input {
 .submit:hover{
     opacity: 0.8;
     background: var(--backgroundColor4);
-    
 }
 
 .submit-module {
@@ -175,6 +176,14 @@ label, input {
 }
 
 /* ********************************************** TABLEAU ********************************************** */
+
+.link-session:hover {
+    color: black;
+}
+
+.link-formation:hover {
+    opacity: 0.7;
+}
 
 .table-category {
     font-weight: 600;
@@ -238,7 +247,7 @@ th {
     cursor: pointer;
 }
 
-.td-student {
+.td-student, td {
     vertical-align: middle;
 }
 
@@ -278,4 +287,28 @@ hr {
 
 .required {
     padding: 5px;
+}
+
+
+
+/* ********************************************** MESSAGE FLASH ********************************************** */
+
+.alert-success, .alert-danger {
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.alert-danger {
+    color: var(--red);
+}
+
+.alert-success {
+    color: var(--green);
+}
+
+/* ********************************************** HONEYPOT ********************************************** */
+
+.honeypot {
+    display: none !important;
 }

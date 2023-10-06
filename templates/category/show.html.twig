@@ -3,9 +3,16 @@
 {% block title %}Détail d'une catégorie{% endblock %}
 
 {% block body %}
-    <h1>Détail d'une catégorie</h1>
 
-    <h2>{{ category }}</h2>
+    <h1>Détail de la catégorie {{ category }}</h1>
 
+    <div class="lists">
+        {% for module in modules %}
+            <div class="list">
+                <h3> {{ module }}</h3>
+            </div>
 
-    {% endblock %}
+        {% endfor %}
+    </div>
+    
+{% endblock %}
