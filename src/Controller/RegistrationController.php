@@ -3,20 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
 use App\Security\AppAuthenticator;
-use App\Security\EmailVerifier;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -40,8 +41,12 @@ class RegistrationController extends AbstractController
             $honeypot = $form->get('honeypot')->getData();
             // si le champs pot de miel est rempli, cela indique une soumission automatisé
             if(!empty($honeypot)) { 
-            // on rejete le formulaire
-            
+            // on rejete le formulaire et on ajoute une erreur au champ
+                // $form->get('honeypot')->addError(new FormError('Ce champs doit être vide.'));
+                $this->addFlash('error', "Erreur lors de l'inscription !");
+                
+                return $this->redirectToRoute('app_register');
+
             } else {
                  
                 // encode the plain password
@@ -72,11 +77,11 @@ class RegistrationController extends AbstractController
                 );
             
             }
-
+        }
             return $this->render('registration/register.html.twig', [
                 'registrationForm' => $form->createView(),
             ]);
-        }
+       
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]

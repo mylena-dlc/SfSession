@@ -92,7 +92,7 @@ class SessionController extends AbstractController
     * Fonction pour ajouter une session
     */
 
-    #[Route('/{formation_id}/session/new', name: 'new_session')]
+    #[Route('admin/{formation_id}/session/new', name: 'new_session')]
 
     public function new( Request $request, $formation_id): Response {
        
@@ -136,7 +136,7 @@ class SessionController extends AbstractController
     */
 
   
-    #[Route('formaton/{formation_id}/session/{id}/edit', name: 'edit_session')]
+    #[Route('admin/formation/{formation_id}/session/{id}/edit', name: 'edit_session')]
 
     public function edit(Session $session = null, Request $request, $formation_id): Response {
        
@@ -174,7 +174,7 @@ class SessionController extends AbstractController
     * Fonction pour supprimer une session
     */
 
-    #[Route('formation/{formation_id}/session/{id}/delete', name: 'delete_session')]
+    #[Route('admin/formation/{formation_id}/session/{id}/delete', name: 'delete_session')]
     public function delete(Session $session, $formation_id) {
 
         

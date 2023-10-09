@@ -46,8 +46,8 @@ class CategoryController extends AbstractController
     * Fonction pour ajouter ou éditer une catégorie
     */
  
-    #[Route('/category/new', name: 'new_category')]
-    #[Route('/category/{id}/edit', name: 'edit_category')]
+    #[Route('admin/category/new', name: 'new_category')]
+    #[Route('admin/category/{id}/edit', name: 'edit_category')]
 
     public function new_edit(Category $category = null, Request $request): Response {
     
@@ -83,7 +83,7 @@ class CategoryController extends AbstractController
     * Fonction pour supprimer une catégorie
     */
     
-    #[Route('/category/{id}/delete', name: 'delete_category')]
+    #[Route('admin/category/{id}/delete', name: 'delete_category')]
     public function delete(Category $category) {
 
         // pour préparé l'objet $category à supprimer (enlever cet objet de la collection)

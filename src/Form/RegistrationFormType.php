@@ -69,9 +69,11 @@ class RegistrationFormType extends AbstractType
             // il est très probable que cela vienne d'un bots, on pourra alors stoper la validation du formulaire
             ->add('honeypot', HiddenType::class, [
                 'required' => false,
+                'mapped' => false,
                 'attr' => [
                     'class' => 'honeypot',
-                ]
+                ],
+
             ])
         ;
     }

@@ -6,8 +6,8 @@
 
     <h1>Centre de formation de {{ formation }}</h1>
 
-    
-    {% if is_granted('ROLE_ADMIN') %} {# Si je suis admin #}
+      
+    {% if is_granted('ROLE_ADMIN') %} {#Si je suis admin#}
         <div class="btn-add">
             <a href="{{ path('new_session', {'formation_id': formation.id}) }}" class="btn btn-success">Ajouter une session</a>
         </div>
