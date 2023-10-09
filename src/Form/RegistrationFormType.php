@@ -63,6 +63,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            
             // Honeypot: c'est une technique de sécurité utilisée pour attirer les robots (bots) en ajoutant un champs de formulaire 
             // invisible pour les utilisateurs mais qui sera visible par les bots. Donc si ce champs est rempli lors de la soumission du formulaire,
             // il est très probable que cela vienne d'un bots, on pourra alors stoper la validation du formulaire
