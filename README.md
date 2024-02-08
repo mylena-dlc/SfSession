@@ -19,7 +19,7 @@ Création d'une application autour de centres de formations. Elle permet d'ajout
 
 ## Aperçu 
 
-![Capture d'écran 1](/assets/public/img/screenshots-accueil.png)
+![Capture d'écran 1](/public/img/screenshots-accueil.png)
 ![Capture d'écran 1](/public/img/screenshots-session.png)
 ![Capture d'écran 1](/public/img/screenshots-stagiaires.png)
 ![Capture d'écran 1](/public/img/screenshots-inscription.png)
