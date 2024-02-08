@@ -19,10 +19,10 @@ Création d'une application autour de centres de formations. Elle permet d'ajout
 
 ## Aperçu 
 
-![Capture d'écran 1](/public/img/screenshots-accueil.png)
-![Capture d'écran 1](/public/img/screenshots-session.png)
-![Capture d'écran 1](/public/img/screenshots-stagiaires.png)
-![Capture d'écran 1](/public/img/screeshots-inscription.png)
-![Capture d'écran 1](/public/img/screenshots-inscription-formateur.png)
-![Capture d'écran 1](/public/img/screenshots-accueil.png)
+![Capture d'écran de l'accueil](/public/img/screeshots-accueil.png)
+![Capture d'écran des sessions](/public/img/screeshots-session.png)
+![Capture d'écran des stagiaires](/public/img/screeshots-stagiaires.png)
+![Capture d'écran interface pour inscrire/désinscrire un stagiaire](/public/img/screeshots-inscription.png)
+![Capture d'écran pour inscrisre un formateur](/public/img/screeshots-inscription-formateur.png)
+
 
